@@ -1,0 +1,7 @@
+{
+    "name": "gearscore",
+    "version": "0.1.0",
+    "author": "Christian Wesselhoeft <christian@cwesselhoeft.com>",
+    "main": "./index.js",
+    "private": true
+}
