@@ -1,4 +1,1 @@
-module.exports = {
-    // score: require('./lib/score'),
-    classic: require('./lib/classic')
-};
+module.exports = { classic: require('./classic') }
