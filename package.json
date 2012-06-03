@@ -1,7 +1,5 @@
-{
-    "name": "gearscore",
-    "version": "0.1.0",
-    "author": "Christian Wesselhoeft <christian@cwesselhoeft.com>",
-    "main": "./index.js",
-    "private": true
+{ "name": "gearscore"
+, "version": "0.1.0"
+, "author": "Christian Wesselhoeft <hi@xtian.us>"
+, "main": "./index.js"
 }
