@@ -30,8 +30,8 @@ var modifiers = {
   , ranged: 5.3224
   }
 
-  // Rarity modifiers
-, rarities:
+  // Quality modifiers
+, qualities:
   [ [73, 1, 0.005]
   , [73, 1, 0.005]
   , [73, 1, 1]
@@ -42,50 +42,53 @@ var modifiers = {
   , [81.375, 0.8125, 1]
   ]
 
-  // Rarity modifiers for ilvls below 120
-, raritiesLow:
+  // Quality modifiers for ilvls below 120
+, qualitiesLow:
   [ [8, 2, 0.005]
   , [8, 2, 0.005]
   , [8, 2, 1]
-  , [0.75, 1.8, 1
+  , [0.75, 1.8, 1]
   ]
 
-  // Convenience method for retrieving rarity
-, rarity: function(ilvl, rarity) {
-    return ilvl > 120 || rarity > 3 ?
-      this.rarities[rarity] : this.raritiesLow[rarity];
+  // Convenience method for retrieving quality
+, quality: function(ilvl, quality) {
+    return ilvl > 120 || quality > 3 ?
+      this.qualities[quality] : this.qualitiesLow[quality]
   }
 }
 
 
-module.exports = function(character, fullItems) {
+module.exports = function(character) {
+  var score = 0
+    , items = character.items
 
-  return character.items.reduce(function(prev, curr, index) {
+  delete items.averageItemLevel
+  delete items.averageItemLevelEquipped
 
-    var ilvl = fullItems[index].itemLevel
-      , rarityMod = modifiers.rarity(ilvl, curr.quality)
-      , slotMod = modifiers.slot[curr.slot]
+  for (var slot in items) {
+    if (!items.hasOwnProperty(slot)) { continue }
 
+    var item = items[slot]
+      , qualityMod = modifiers.quality(item.itemLevel, item.quality)
+      , slotMod = modifiers.slot[slot]
 
-    if (curr.slot === 'mainHand' &&
-        character.items[index + 1] &&
-        character.items[index + 1].slot === 'offHand') {
-
+    if (slot === 'mainHand' && items.offHand !== undefined) {
       slotMod = 1
     }
 
-    var score = Math.floor(
-      ((ilvl - rarityMod[0]) / rarityMod[1]) *
+    var itemScore = Math.floor(
+      ((item.itemLevel - qualityMod[0]) / qualityMod[1]) *
       1.8618 *
       slotMod *
-      rarityMod[2]
+      qualityMod[2]
     )
 
-    // Hunter check
-    if (character.class === 3 && curr.slot in modifiers.slotHunter) {
-      score = Math.floor(score * modifiers.slotHunter[curr.slot])
+    if (character.class === 3 && slot in modifiers.slotHunter) {
+      itemScore = Math.floor(itemScore * modifiers.slotHunter[slot])
     }
 
-    return prev + Math.max(score, 0)
-  }, 0)
+    score += Math.max(itemScore, 0)
+  }
+
+  return score
 }
