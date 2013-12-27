@@ -2,4 +2,8 @@
 , "version": "0.2.0"
 , "author": "Christian Wesselhoeft <hi@xtian.us>"
 , "main": "./index.js"
+, "repository":
+  { "type": "git"
+  , "url": "git://github.com/xtian/gearscore.js.git"
+  }
 }
