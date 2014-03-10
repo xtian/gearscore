@@ -1,13 +1,4 @@
-var modifiers = require('./modifiers')
-
-// Convenience method for retrieving quality
-var quality = function(ilvl, quality) {
-  if (ilvl > 120 || quality > 3) {
-    return modifiers.qualities[quality]
-  } else {
-    return modifiers.qualitiesLow[quality]
-  }
-}
+var Item = require('./item')
 
 module.exports = function(character) {
   var score = 0
@@ -18,27 +9,13 @@ module.exports = function(character) {
 
   for (var slot in items) {
     if (!items.hasOwnProperty(slot)) { continue }
+    var options = items[slot]
 
-    var item = items[slot]
-      , qualityMod = quality(item.itemLevel, item.quality)
-      , slotMod = modifiers.slot[slot]
-
-    if (slot === 'mainHand' && items.offHand !== undefined) {
-      slotMod = 1
+    if (slot === 'mainHand' && !items.offHand) {
+      slot = 'twoHand'
     }
 
-    var itemScore = Math.floor(
-      ((item.itemLevel - qualityMod[0]) / qualityMod[1]) *
-      1.8618 *
-      slotMod *
-      qualityMod[2]
-    )
-
-    if (character.class === 3 && slot in modifiers.slotHunter) {
-      itemScore = Math.floor(itemScore * modifiers.slotHunter[slot])
-    }
-
-    score += Math.max(itemScore, 0)
+    score += new Item(slot, options).score
   }
 
   return score
