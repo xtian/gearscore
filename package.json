@@ -1,5 +1,5 @@
 { "name": "gearscore"
-, "version": "0.2.0"
+, "version": "0.3.0"
 , "author": "Christian Wesselhoeft <hi@xtian.us>"
 , "main": "./index.js"
 , "repository":
