@@ -24,7 +24,7 @@ getter('score', function() {
   )
 
   assert(!Number.isNaN(score), 'item score should not be NaN')
-  return score
+  return Math.max(score, 0)
 })
 
 getter('_qualityMod', function() {
