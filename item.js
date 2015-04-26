@@ -1,5 +1,5 @@
-var assert = require('assert').ok
-  , modifiers = require('./modifiers')
+const assert = require('assert').ok
+const modifiers = require('./modifiers')
 
 function Item(slot, options) {
   this.slot = slot
@@ -17,7 +17,7 @@ function getter(name, fn) {
 }
 
 getter('score', function() {
-  var score = Math.floor(
+  const score = Math.floor(
     ((this.level - this._qualityMod[0]) / this._qualityMod[1]) *
     this._slotMod *
     1.8291

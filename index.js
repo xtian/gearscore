@@ -1,17 +1,17 @@
-var Item = require('./item')
+const Item = require('./item')
 
 module.exports = function(character) {
-  var score = 0
-    , items = character.items
+  let score = 0
+  const items = character.items
 
-  for (var slot in items) {
+  for (let slot in items) {
     if (!items.hasOwnProperty(slot)) { continue }
 
     if (slot === 'averageItemLevel' || slot === 'averageItemLevelEquipped') {
       continue
     }
 
-    var options = items[slot]
+    const options = items[slot]
 
     if (slot === 'mainHand' && !items.offHand) {
       slot = 'twoHand'
