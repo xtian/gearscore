@@ -1,3 +1,5 @@
+'use strict'
+
 const assert = require('assert').ok
 const modifiers = require('./modifiers')
 
