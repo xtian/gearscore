@@ -12,6 +12,22 @@ struct AccessTokenResponse {
     access_token: String,
 }
 
+#[derive(Debug, Deserialize)]
+struct CharacterResponse {
+    items: HashMap<String, ItemResponse>,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(untagged)]
+enum ItemResponse {
+    Item {
+        #[serde(rename = "itemLevel")]
+        item_level: u16,
+        quality: u16,
+    },
+    Number(u16),
+}
+
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let client_id = env::var("CLIENT_ID").expect("CLIENT_ID required");
     let client_secret = env::var("CLIENT_SECRET").expect("CLIENT_SECRET required");
@@ -39,7 +55,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         name = name
     );
 
-    let character_response: String = reqwest::get(&url)?.text()?;
+    let character_response: CharacterResponse = reqwest::get(&url)?.json()?;
 
     println!("{:#?}", character_response);
 
